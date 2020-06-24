@@ -16,6 +16,9 @@ the freq=xxx folders? Stored the experiment result.
 
 I think you can find everything you need in my report.
 
+Neural network structure used:
+![img](https://github.com/saaries/Maze_DQN_reinforcement_learning/blob/master/nn_structure.png)
+
 For Q-learning version maze solver, see:https://github.com/saaries/Maze_reinforcement_learning
 
 You should get logs like this if the program works well:
