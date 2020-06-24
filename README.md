@@ -22,4 +22,4 @@ You should get logs like this if the program works well:
 
 ![img](https://github.com/saaries/Maze_DQN_reinforcement_learning/blob/master/log_1.png)
 ![img](https://github.com/saaries/Maze_DQN_reinforcement_learning/blob/master/log_2.png)
-![img](https://github.com/saaries/Maze_DQN_reinforcement_learning/blob/master/log_3.png)
+![img](https://github.com/saaries/Maze_DQN_reinforcement_learning/blob/master/log-3.png)
