@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.random import randint
 from itertools import product as cartesian_product
-from skimage.draw import circle, circle_perimeter
+from skimage.draw import disk, circle_perimeter
 import gym
 import my_maze
 import numpy as np

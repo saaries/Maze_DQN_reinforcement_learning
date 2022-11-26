@@ -38,8 +38,8 @@ RENDERING_STEP = 500
 
 def get_copy_var_ops(src_scope:str, dest_scope:str):
     copied = []
-    src_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope = src_scope)
-    dest_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope = dest_scope)
+    src_vars = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope = src_scope)
+    dest_vars = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES, scope = dest_scope)
     for src_var, dest_var in zip(src_vars, dest_vars):
         copied.append(dest_var.assign(src_var.value()))
     return copied
@@ -73,10 +73,10 @@ if __name__ == "__main__":
     best_step = MAX_TRY_STEP
     best_action = []
     t1 = time.time()
-    with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
         mainDQN = dqn.DQN(sess, INPUT_SIZE, OUTPUT_SIZE, name="main")
         targetDQN = dqn.DQN(sess, INPUT_SIZE, OUTPUT_SIZE, name="target")
-        sess.run(tf.global_variables_initializer())
+        sess.run(tf.compat.v1.global_variables_initializer())
 
         copy_ops = get_copy_var_ops("main", "target")
         sess.run(copy_ops)
@@ -99,7 +99,7 @@ if __name__ == "__main__":
                 action_list.append(action)
 
                 # if RENDERING:
-                #     if step_count % RENDERING_STEP is 0:
+                #     if step_count % RENDERING_STEP == 0:
                 #         env.render()
                 env.render()
 
@@ -111,7 +111,7 @@ if __name__ == "__main__":
                     loss_sum += loss
 
 
-                if step_count % UPDATE_FEQ is 0:
+                if step_count % UPDATE_FEQ == 0:
                     sess.run(copy_ops)
 
                 state = next_state

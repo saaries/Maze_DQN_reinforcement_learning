@@ -61,7 +61,7 @@ import numpy as np
 import tensorflow as tf
 
 class DQN:
-    def __init__(self, session:tf.Session, input_array:np.ndarray, output_size:int,
+    def __init__(self, session:tf.compat.v1.Session, input_array:np.ndarray, output_size:int,
                  name:str = 'main'):
         self.session = session
         self.output_size = output_size
@@ -70,54 +70,54 @@ class DQN:
         self.data_y = input_array[1]
         self.network()
 
-        tf.summary.FileWriter("logs1/", self.session.graph)
+        tf.compat.v1.summary.FileWriter("logs1/", self.session.graph)
 
     def network(self, learning_rate = 1e-3):
         print('learning_rate:',learning_rate)
-        with tf.variable_scope(self.net_name):
-            self.X = tf.placeholder(tf.float32, [None, self.data_x, self.data_y, 1])
+        with tf.compat.v1.variable_scope(self.net_name):
+            self.X = tf.compat.v1.placeholder(tf.float32, [None, self.data_x, self.data_y, 1])
             observation = self.X
-            self.Y = tf.placeholder(tf.float32, [None, self.output_size])
+            self.Y = tf.compat.v1.placeholder(tf.float32, [None, self.output_size])
 
             # 17x17x1
-            conv1 = tf.layers.conv2d(
+            conv1 = tf.compat.v1.layers.conv2d(
                 inputs = observation, filters = 32, kernel_size = [2,2],
                 padding = "valid", activation = tf.nn.relu)
             # 16x16x32
 
-            pool1 = tf.layers.max_pooling2d(
+            pool1 = tf.compat.v1.layers.max_pooling2d(
                 inputs = conv1, pool_size = [2,2], strides = 2)
             # 8x8x32
 
-            conv2 = tf.layers.conv2d(
+            conv2 = tf.compat.v1.layers.conv2d(
                 inputs = pool1, filters = 64, kernel_size = [2,2],
                 padding = "same", activation = tf.nn.relu)
             # 8x8x32
 
-            pool2 = tf.layers.max_pooling2d(
+            pool2 = tf.compat.v1.layers.max_pooling2d(
                 inputs = conv2, pool_size = [2,2], strides = 2)
             # 4x4x64
 
-            conv3 = tf.layers.conv2d(
+            conv3 = tf.compat.v1.layers.conv2d(
                 inputs = pool2, filters = 128, kernel_size = [2,2],
                 padding = "same", activation = tf.nn.relu)
             # 4x4x128
 
-            pool3 = tf.layers.max_pooling2d(
+            pool3 = tf.compat.v1.layers.max_pooling2d(
                 inputs = conv3, pool_size = [2,2], strides = 2)
 
             # 2x2x128
             flat = tf.reshape(pool3, [-1, 2*2*128])
             # reshape to 1x512
 
-            fc = tf.layers.dense(
+            fc = tf.compat.v1.layers.dense(
                 inputs = flat, units = self.output_size)
             # 1x4
 
             self.Qpred = fc
             self.loss = tf.losses.mean_squared_error(self.Y, self.Qpred)
 
-            train = tf.train.AdamOptimizer(learning_rate)
+            train = tf.compat.v1.train.AdamOptimizer(learning_rate)
             self.train_op = train.minimize(self.loss)
 
     def predict(self, state):
